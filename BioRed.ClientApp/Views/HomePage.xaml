@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dtos="clr-namespace:BioRed.Core.DTOs;assembly=BioRed.Core"
+             x:Class="BioRed.ClientApp.Views.HomePage"
+             Title="Inicio"
+             BackgroundColor="#F7F8FA"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- 🔴 BARRA SUPERIOR CON DIRECCIÓN ACTIVA -->
+        <Border Grid.Row="0"
+                BackgroundColor="#D32F2F"
+                Padding="15,40,15,15"
+                StrokeShape="RoundRectangle 0,0,20,20"
+                StrokeThickness="0">
+
+            <VerticalStackLayout Spacing="8">
+                <Label Text="ENTREGAR EN:" 
+                       TextColor="#FFCDD2" 
+                       FontSize="11" 
+                       FontAttributes="Bold"/>
+
+                <!-- Dirección Seleccionada -->
+                <HorizontalStackLayout Spacing="6">
+                    <Label Text="📍" FontSize="16"/>
+                    <Label Text="{Binding DireccionActiva}" 
+                           TextColor="White" 
+                           FontSize="15" 
+                           FontAttributes="Bold"
+                           LineBreakMode="TailTruncation"
+                           MaximumWidthRequest="280"/>
+                </HorizontalStackLayout>
+
+                <!-- 🟢 BUSCADOR CORREGIDO: Redondeado mediante un Border envolvente -->
+                <Border StrokeShape="RoundRectangle 10"
+                        BackgroundColor="White"
+                        StrokeThickness="0"
+                        Margin="0,5,0,0"
+                        HeightRequest="42">
+                    <SearchBar Placeholder="Buscar productos o servicios..."
+                               Text="{Binding TextoBusqueda}"
+                               BackgroundColor="Transparent" />
+                </Border>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- 🟡 CONTENIDO PRINCIPAL -->
+        <ScrollView Grid.Row="1" Padding="15">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- Banner Promocional -->
+                <Border BackgroundColor="#1E88E5" 
+                        Padding="20" 
+                        StrokeShape="RoundRectangle 15"
+                        StrokeThickness="0">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="¡Envíos a Domicilio!" 
+                                   TextColor="White" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"/>
+                            <Label Text="Selecciona tu sucursal cercana y realiza tu pedido." 
+                                   TextColor="#E3F2FD" 
+                                   FontSize="13"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="🛵" FontSize="40" VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- Secciones de Acceso Rápido -->
+                <Label Text="¿Qué deseas hacer hoy?" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       TextColor="#212121"/>
+
+                <!-- GRID DE ACCIONES RÁPIDAS (2 Columnas) -->
+                <CollectionView ItemsSource="{Binding AccionesRapidas}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="dtos:QuickActionDto">
+                            <Border StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="0"
+                                    BackgroundColor="{Binding BackgroundColor}"
+                                    Padding="15">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EjecutarAccionCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
+                                    <Label Grid.Column="0" 
+                                           Text="{Binding Icon}" 
+                                           FontSize="28" 
+                                           VerticalOptions="Center"/>
+
+                                    <Label Grid.Column="1" 
+                                           Text="{Binding Title}" 
+                                           FontSize="13" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#212121"
+                                           VerticalOptions="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

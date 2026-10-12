@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BioRed.ClientApp.ViewModels"
+             x:Class="BioRed.ClientApp.Views.LoginPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F4F6F9">
+
+    <Grid VerticalOptions="Center" Padding="30">
+        <VerticalStackLayout Spacing="20">
+
+            <!-- Encabezado / Logo -->
+            <Label Text="BioRed" 
+                   FontSize="36" 
+                   FontAttributes="Bold" 
+                   TextColor="#0066CC" 
+                   HorizontalOptions="Center" />
+
+            <Label Text="Inicia sesión para continuar" 
+                   FontSize="14" 
+                   TextColor="Gray" 
+                   HorizontalOptions="Center" />
+
+            <!-- Formulario -->
+            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="White" Padding="15">
+                <VerticalStackLayout Spacing="15">
+
+                    <Entry Placeholder="Correo electrónico" 
+                           Text="{Binding Email}" 
+                           Keyboard="Email" 
+                           TextColor="Black"/>
+
+                    <BoxView HeightRequest="1" Color="#E0E0E0" />
+
+                    <Entry Placeholder="Contraseña" 
+                           Text="{Binding Password}" 
+                           IsPassword="True" 
+                           TextColor="Black"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Botón de Login -->
+            <Button Text="Ingresar" 
+                    Command="{Binding LoginCommand}" 
+                    BackgroundColor="#0066CC" 
+                    TextColor="White" 
+                    CornerRadius="10" 
+                    HeightRequest="50" 
+                    FontAttributes="Bold"/>
+            
+            
+            <Label Text="¿Olvidaste tu contraseña?"
+       TextColor="#10B981"
+       FontAttributes="Bold"
+       HorizontalOptions="Center"
+       Margin="0,10,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding IrARecuperarContrasenaCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!-- Indicador de carga -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}" 
+                               Color="#0066CC" 
+                               HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

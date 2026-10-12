@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<!-- Permisos de Red (para conectar al servidor HTTP) -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+	<!-- Permisos de Ubicación (necesarios para Google Maps en Android) -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+	<application android:allowBackup="true"
+                 android:icon="@mipmap/appicon"
+                 android:supportsRtl="true"
+                 android:usesCleartextTraffic="true"
+                 android:label="BIORED">
+
+		<!-- Configuración de Google Maps para Android -->
+		<meta-data android:name="com.google.android.geo.API_KEY" android:value="PASTE_YOUR_API_KEY_HERE" />
+
+	</application>
+
+</manifest>

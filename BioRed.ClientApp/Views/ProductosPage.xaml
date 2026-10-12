@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:BioRed.Core.DTOs;assembly=BioRed.Core"
+             x:Class="BioRed.ClientApp.Views.ProductosPage"
+             Title="Catálogo de Productos"
+             BackgroundColor="#F4F6F9">
+
+    <!-- BOTÓN DEL CARRITO EN LA BARRA SUPERIOR -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="🛒 Carrito" 
+                     Priority="0" 
+                     Order="Primary" 
+                     Clicked="OnCarritoClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- Indicador de Carga -->
+        <ActivityIndicator Grid.RowSpan="2"
+                           IsRunning="{Binding IsBusy}" 
+                           IsVisible="{Binding IsBusy}" 
+                           Color="#0066CC" 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center" 
+                           ZIndex="1" />
+
+        <!-- Selector de Sucursal -->
+        <Border Grid.Row="0" 
+                Margin="15,15,15,5" 
+                Padding="12,8" 
+                BackgroundColor="White" 
+                StrokeShape="RoundRectangle 8" 
+                StrokeThickness="0">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Sucursal seleccionada:" 
+                       FontSize="12" 
+                       TextColor="Gray" 
+                       FontAttributes="Bold" />
+                <Picker ItemsSource="{Binding Sucursales}"
+                        ItemDisplayBinding="{Binding BranchName}"
+                        SelectedItem="{Binding SucursalSeleccionada}"
+                        Title="-- Selecciona una sucursal --"
+                        TextColor="#333" 
+                        FontSize="15" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Catálogo de Productos -->
+        <CollectionView Grid.Row="1" 
+                        ItemsSource="{Binding Productos}" 
+                        SelectionMode="Single"
+                        SelectionChanged="OnProductoSeleccionado"
+                        Margin="15,5,15,15">
+
+            <!-- Vista cuando no hay productos disponibles -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="📦" FontSize="40" HorizontalOptions="Center" />
+                    <Label Text="No hay productos disponibles en esta sucursal." 
+                           TextColor="Gray" 
+                           FontSize="14" 
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <!-- Plantilla para cada tarjeta de producto -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ProductoDto">
+                    <Border StrokeShape="RoundRectangle 12" 
+                            StrokeThickness="0" 
+                            BackgroundColor="White" 
+                            Padding="15" 
+                            Margin="0,0,0,10">
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto, Auto">
+
+                            <!-- Nombre del Producto -->
+                            <Label Text="{Binding ProductName}" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#333" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   LineBreakMode="TailTruncation" />
+
+                            <!-- Precio del Producto -->
+                            <Label Text="{Binding SalePrice, StringFormat='Q {0:F2}'}" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#27AE60" 
+                                   Grid.Row="0" 
+                                   Grid.Column="1" 
+                                   HorizontalOptions="End" />
+
+                            <!-- Código del Producto -->
+                            <Label Text="{Binding ProductCode, StringFormat='Código: {0}'}" 
+                                   TextColor="Gray" 
+                                   FontSize="12" 
+                                   Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Grid.ColumnSpan="2" 
+                                   Margin="0,2,0,0" />
+
+                            <!-- Cantidad Disponible en Stock -->
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8,0,0" Spacing="6">
+                                <Label Text="Stock disponible:" FontSize="12" TextColor="Gray" VerticalOptions="Center" />
+                                <Label Text="{Binding AvailableQuantity}" 
+                                       FontSize="12" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0066CC" 
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

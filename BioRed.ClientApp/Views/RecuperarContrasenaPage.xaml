@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BioRed.ClientApp.ViewModels"
+             x:Class="BioRed.ClientApp.Views.RecuperarContrasenaPage"
+             Title="Recuperar Contraseña"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F9FAFB">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="24">
+
+        <!-- Encabezado -->
+        <VerticalStackLayout Grid.Row="0" Spacing="8" Margin="0,40,0,20" HorizontalOptions="Center">
+            <Label Text="Recuperación de Cuenta" FontSize="22" FontAttributes="Bold" TextColor="#1F2937" HorizontalTextAlignment="Center"/>
+            <Label Text="Ingresa los datos para restablecer tu acceso" FontSize="14" TextColor="#6B7280" HorizontalTextAlignment="Center"/>
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Row="1" VerticalOptions="Center">
+            <VerticalStackLayout Spacing="20">
+
+                <!-- PASO 1: Pedir Correo -->
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding EsPaso1}">
+                    <Label Text="Ingresa tu correo registrado para enviarte una clave temporal:" FontSize="14" TextColor="#374151"/>
+
+                    <Border Stroke="#D1D5DB" StrokeThickness="1" Padding="12,0" StrokeShape="RoundRectangle 8">
+                        <Entry Placeholder="Correo electrónico" 
+                               Text="{Binding Email}" 
+                               Keyboard="Email" 
+                               HeightRequest="48"/>
+                    </Border>
+
+                    <Button Text="Enviar Clave Temporal" 
+                            Command="{Binding EnviarCorreoRecuperacionCommand}" 
+                            BackgroundColor="#10B981" 
+                            TextColor="White" 
+                            FontAttributes="Bold" 
+                            CornerRadius="8" 
+                            HeightRequest="48"/>
+                </VerticalStackLayout>
+
+                <!-- PASO 2: Clave Temporal y Nueva Contraseña -->
+                <VerticalStackLayout Spacing="16" IsVisible="{Binding EsPaso2}">
+                    <Label Text="Ingresa la clave temporal enviada a tu correo y establece tu nueva contraseña:" FontSize="14" TextColor="#374151"/>
+
+                    <!-- Clave Temporal -->
+                    <Border Stroke="#D1D5DB" StrokeThickness="1" Padding="12,0" StrokeShape="RoundRectangle 8">
+                        <Entry Placeholder="Clave temporal recibida" 
+                               Text="{Binding ClaveTemporal}" 
+                               HeightRequest="48"/>
+                    </Border>
+
+                    <!-- Nueva Contraseña -->
+                    <Border Stroke="#D1D5DB" StrokeThickness="1" Padding="12,0" StrokeShape="RoundRectangle 8">
+                        <Entry Placeholder="Nueva contraseña" 
+                               IsPassword="True"
+                               Text="{Binding NuevaContrasena}" 
+                               HeightRequest="48"/>
+                    </Border>
+
+                    <Button Text="Confirmar Cambio" 
+                            Command="{Binding ConfirmarCambioContrasenaCommand}" 
+                            BackgroundColor="#059669" 
+                            TextColor="White" 
+                            FontAttributes="Bold" 
+                            CornerRadius="8" 
+                            HeightRequest="48"/>
+                </VerticalStackLayout>
+
+                <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="#10B981"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Cancelar -->
+        <Button Grid.Row="2" 
+                Text="Cancelar y volver" 
+                Command="{Binding VolverALoginCommand}" 
+                BackgroundColor="Transparent" 
+                TextColor="#6B7280"/>
+    </Grid>
+</ContentPage>

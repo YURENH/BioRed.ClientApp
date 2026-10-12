@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BioRed.DriverApp.Views.PedidosPage"
+             Title="Mis Pedidos Asignados"
+             BackgroundColor="#F4F6F9">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="15">
+            <Label Text="Pedidos Pendientes" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="#333" />
+
+            <!-- Tarjeta de Pedido de Ejemplo -->
+            <Border StrokeShape="RoundRectangle 10" BackgroundColor="White" Padding="15" StrokeThickness="0">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Pedido #1042" FontAttributes="Bold" FontSize="16" Grid.Column="0"/>
+                        <Label Text="Q45.00" FontAttributes="Bold" TextColor="#0066CC" Grid.Column="1"/>
+                    </Grid>
+
+                    <Label Text="📍 Cliente: María López" TextColor="Gray" />
+                    <Label Text="🏠 Dirección: Av. Central 12-45 Zona 10" TextColor="Gray" />
+                    <Label Text="📦 Estado: En Preparación" TextColor="#D35400" FontAttributes="Bold" />
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,10,0,0">
+                        <Button Text="Tomar Pedido" BackgroundColor="#00D1B2" TextColor="Black" Grid.Column="0"/>
+                        <Button Text="Marcar Entregado" BackgroundColor="#27AE60" TextColor="White" Grid.Column="1"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

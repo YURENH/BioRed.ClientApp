@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BioRed.ClientApp.ViewModels"
+             xmlns:dto="clr-namespace:BioRed.Core.Dtos;assembly=BioRed.Core"
+             x:Class="BioRed.ClientApp.Views.MisPedidosPage"
+             x:DataType="vm:MisPedidosViewModel"
+             Title="Mis Pedidos"
+             BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#121212}">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- Indicador de carga principal -->
+        <ActivityIndicator Grid.Row="0"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Margin="10" />
+
+        <!-- Pull to Refresh -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding CargarPedidosCommand}">
+
+            <CollectionView ItemsSource="{Binding Pedidos}"
+                            Margin="15">
+
+                <!-- Vista cuando la lista de pedidos está vacía -->
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="10"
+                                         Padding="20">
+                        <Label Text="📦"
+                               FontSize="50"
+                               HorizontalOptions="Center" />
+                        <Label Text="No tienes pedidos registrados."
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <!-- Plantilla de tarjeta para cada Pedido -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:OrderDetailsDto">
+                        <Border Margin="0,0,0,12"
+                                Padding="15"
+                                StrokeShape="RoundRectangle 12"
+                                StrokeThickness="1"
+                                Stroke="#E0E0E0"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+
+                            <VerticalStackLayout Spacing="10">
+
+                                <!-- Encabezado: ID del pedido y estado -->
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding OrderId, StringFormat='Pedido #{0}'}"
+                                           FontAttributes="Bold"
+                                           FontSize="16" />
+
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Estado}"
+                                           FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light=#2196F3, Dark=#64B5F6}" />
+                                </Grid>
+
+                                <BoxView HeightRequest="1" Color="#EEEEEE" />
+
+                                <!-- Información general del pedido -->
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                                           FontSize="13"
+                                           TextColor="Gray" />
+
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Total, StringFormat='{0:C}'}"
+                                           FontAttributes="Bold"
+                                           FontSize="15" />
+                                </Grid>
+
+                                <!-- Botones de Acción con RelativeSource Binding al ViewModel principal -->
+                                <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,5,0,0">
+
+                                    <!-- Botón Rastrear -->
+                                    <Button Grid.Column="0"
+                                            Text="Rastrear"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MisPedidosViewModel}}, Path=RastrearPedidoCommand}"
+                                            CommandParameter="{Binding .}"
+                                            CornerRadius="8" />
+
+                                    <!-- Botón Cancelar -->
+                                    <Button Grid.Column="1"
+                                            Text="Cancelar"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MisPedidosViewModel}}, Path=CancelarPedidoCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#D32F2F"
+                                            TextColor="White"
+                                            CornerRadius="8" />
+                                </Grid>
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

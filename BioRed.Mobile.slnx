@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="BioRed.ClientApp/BioRed.ClientApp.csproj" Id="8e93f381-982c-4204-854d-202516628fce" />
+  <Project Path="BioRed.Core/BioRed.Core.csproj" Id="8f4e0adf-691a-480c-bed0-f9e431764cfa" />
+  <Project Path="BioRed.DriverApp/BioRed.DriverApp.csproj" Id="12b176ae-6df3-4421-99ff-fd27fbf30bbb" />
+  <Project Path="BioRed.Services/BioRed.Services.csproj" Id="b7f9f216-93c1-47cd-a71c-26289a593d7a" />
+</Solution>

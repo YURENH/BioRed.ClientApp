@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BioRed.ClientApp.Views.ProductoDetallePage"
+             Title="Detalle del Producto"
+             BackgroundColor="#F4F6F9">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+
+            <!-- Card Principal con Info -->
+            <Border StrokeShape="RoundRectangle 16" BackgroundColor="White" Padding="20" StrokeThickness="0">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="{Binding Producto.ProductName}" FontSize="22" FontAttributes="Bold" TextColor="#333" />
+                    <Label Text="{Binding Producto.ProductCode, StringFormat='Código: {0}'}" FontSize="13" TextColor="Gray" />
+
+                    <!-- Indicador Receta Médica -->
+                    <Border IsVisible="{Binding Producto.RequiresPrescription}" 
+                            BackgroundColor="#FFF3CD" 
+                            StrokeShape="RoundRectangle 8" 
+                            Padding="8,4" 
+                            HorizontalOptions="Start" 
+                            StrokeThickness="0">
+                        <Label Text="⚠️ Requiere Receta Médica" FontSize="12" TextColor="#856404" FontAttributes="Bold" />
+                    </Border>
+
+                    <Label Text="{Binding Producto.Description}" FontSize="14" TextColor="#555" Margin="0,5,0,0" />
+
+                    <!-- Divisor corregido con BoxView -->
+                    <BoxView HeightRequest="1" Color="#E0E0E0" Margin="0,10" HorizontalOptions="Fill" />
+
+                    <Grid ColumnDefinitions="*, Auto">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="Precio unitario:" FontSize="12" TextColor="Gray" />
+                            <Label Text="{Binding Producto.SalePrice, StringFormat='Q {0:F2}'}" FontSize="20" FontAttributes="Bold" TextColor="#27AE60" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" HorizontalOptions="End">
+                            <Label Text="Disponible:" FontSize="12" TextColor="Gray" />
+                            <Label Text="{Binding Producto.AvailableQuantity}" FontSize="16" FontAttributes="Bold" TextColor="#0066CC" HorizontalOptions="End" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Selector de Cantidad -->
+            <Border StrokeShape="RoundRectangle 16" BackgroundColor="White" Padding="20" StrokeThickness="0">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Seleccionar Cantidad" FontSize="16" FontAttributes="Bold" TextColor="#333" HorizontalOptions="Center" />
+
+                    <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                        <Button Text="-" Command="{Binding DecrementarCommand}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#E0E0E0" TextColor="Black" FontSize="20" />
+                        <Label Text="{Binding Cantidad}" FontSize="24" FontAttributes="Bold" VerticalOptions="Center" WidthRequest="40" HorizontalTextAlignment="Center" />
+                        <Button Text="+" Command="{Binding IncrementarCommand}" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#0066CC" TextColor="White" FontSize="20" />
+                    </HorizontalStackLayout>
+
+                    <!-- Divisor corregido con BoxView -->
+                    <BoxView HeightRequest="1" Color="#E0E0E0" HorizontalOptions="Fill" />
+
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Subtotal:" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Label Text="{Binding Subtotal, StringFormat='Q {0:F2}'}" Grid.Column="1" FontSize="22" FontAttributes="Bold" TextColor="#27AE60" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Botón Agregar -->
+            <Button Text="🛒 Agregar al Carrito" 
+                    Command="{Binding AgregarAlCarritoCommand}" 
+                    BackgroundColor="#27AE60" 
+                    TextColor="White" 
+                    FontAttributes="Bold" 
+                    FontSize="18" 
+                    HeightRequest="55" 
+                    CornerRadius="12" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
